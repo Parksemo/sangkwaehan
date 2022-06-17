@@ -17,13 +17,13 @@ t=random.choice([3,4,5])
 
 # 부산 가볼만한 곳 순위 불러오기
 data = pd.read_csv('부산여행순위.csv')
-tourist_attractions_list = np.array(data.장소)
+tourist_attractions_list = np.array(data.장소)[:5]
 
 # 투어어드바이저 웹 크롤링 함수
 def 리뷰크롤링(key):
     # 파일 쓰기
     title = "리뷰", "평점"
-    f = open(f"{key}.csv", "w", encoding='utf-8-sig', newline="")
+    f = open(f"tourist_attractions\{key}.csv", "w", encoding='utf-8-sig', newline="")
     writer = csv.writer(f)
     writer.writerow(title)
 
@@ -78,8 +78,7 @@ def 리뷰크롤링(key):
     # 파일쓰기 및 데이터 확인
     writer.writerows(out_re)
     f.close()   
-    df = pd.read_csv(f'{key}.csv')
-    return df
+    return
 
 # 가볼만한 곳 리스트의 장소들로 트립어드바이저 검색
 for name in tourist_attractions_list:

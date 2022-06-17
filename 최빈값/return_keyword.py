@@ -2,7 +2,6 @@ import pandas as pd
 import ast
 from collections import Counter
 
-
 list1=[]
 list2=[]
 list3=[]
