@@ -1,3 +1,7 @@
+# ----------------------------------------------------------
+# 네이버 가볼만한 곳 크롤링 함수
+# ----------------------------------------------------------
+
 import pandas as pd
 from selenium import webdriver
 import chromedriver_autoinstaller
