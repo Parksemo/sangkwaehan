@@ -7,9 +7,6 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sentence_transformers import SentenceTransformer
 
-data = pd.read_csv('부산여행순위.csv')
-장소_list = np.array(data.장소)[:1]
-
 # 키워드 추출 함수
 def 키버트_키워드_추출(장소, 최소그램, 최대그램, 추출키워드개수, 상위키워드개수):
     평점 = []
