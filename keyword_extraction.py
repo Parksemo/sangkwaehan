@@ -74,4 +74,5 @@ def 키버트_키워드_추출(장소, 최소그램, 최대그램, 추출키워�
         ''')
         
     장소_키워드_평점 = pd.DataFrame(list(zip(장소, 키워드_총_리스트, 평점, 리뷰_수_리스트)) ,columns=['장소','키워드','평점', '리뷰수'])
+    장소_키워드_평점.to_pickle("pickle_review_data_frame")
     return 장소_키워드_평점
