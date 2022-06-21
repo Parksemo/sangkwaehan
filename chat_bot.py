@@ -5,6 +5,8 @@ import pandas as pd
 import telegram
 from CBF import CBF
 from random_keyword import print_random_keyword
+import os
+from google_images_download import google_images_download
 
 token = '5569336973:AAHuk9BSs66Uq2fv7kuwNLCPVshMthsMXvA'
 id = '5541102425'
@@ -39,9 +41,13 @@ def handler(update, context):
 
         for i in best_tourist_attractions:
             bot.sendMessage(chat_id=id, text=f"추천하는 여행지는: {i}")  # 추천 여행지
+            path = show_image(i)
+            bot.send_photo(chat_id=id, photo=open(f'{path}', 'rb'))
 
         for j in honey_tourist_attractions:
             bot.sendMessage(chat_id=id, text=f"꿀 여행지는: {j}")  # 꿀 여행지
+            path = show_image(j)
+            bot.send_photo(chat_id=id, photo=open(f'{path}', 'rb'))
 
     #3-2
     else:
@@ -51,6 +57,21 @@ def handler(update, context):
             bot.sendMessage(chat_id=id, text=f"{k}")
         bot.sendMessage(chat_id=id, text="다시 가고 싶은 여행지의 키워드를 입력해주세요.")
 
+
+def show_image(key):
+    response = google_images_download.googleimagesdownload()
+
+    arguments = {"keywords": key, "limit": 1, "print_urls": True, "format":"jpg"}
+    paths = response.download(arguments)  # passing the arguments to the function
+    #print(paths)
+
+    dir_path = os.getcwd() + '\\downloads' + f'\\{key}'
+
+    for (root, directories, files) in os.walk(dir_path):
+        for file in files:
+            file_path = os.path.join(root, file)
+            #name = file_path.split('\\')[-1].replace('.jpg', '')
+    return file_path
+
 echo_handler = MessageHandler(Filters.text, handler)
 dispatcher.add_handler(echo_handler)
-
