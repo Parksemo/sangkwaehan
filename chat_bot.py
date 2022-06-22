@@ -7,6 +7,7 @@ from CBF import CBF
 from random_keyword import print_random_keyword
 import os
 from google_images_download import google_images_download
+import random
 
 token = '5569336973:AAHuk9BSs66Uq2fv7kuwNLCPVshMthsMXvA'
 id = '5541102425'
@@ -28,7 +29,7 @@ df = pd.read_pickle("pickle_review_data_frame")
 
 # 1 -> 나중에 문구 수정
 bot.send_photo(chat_id=id, photo=open('main.PNG', 'rb'))
-bot.sendMessage(chat_id=id, text="가고 싶은 여행지의 키워드를 입력해주세요.")
+#bot.sendMessage(chat_id=id, text="가고 싶은 여행지의 키워드를 입력해주세요.")
 
 def handler(update, context):
     # 2
@@ -40,22 +41,31 @@ def handler(update, context):
         best_tourist_attractions, honey_tourist_attractions = CBF(user_text, df)
 
         for i in best_tourist_attractions:
-            bot.sendMessage(chat_id=id, text=f"추천하는 여행지는: {i}")  # 추천 여행지
+            key1, key2, key3, score = add_info(i)
+            bot.sendMessage(chat_id=id, text=f"추천하는 인기 여행지는 {i} 입니다.\n\n해당 여행지의 키워드는 {key1}, {key2}, {key3} 입니다. \n\n해당 여행지를 다녀간 여행객들의 평균 평점은 {score} 입니다.")  # 추천 여행지
             path = show_image(i)
             bot.send_photo(chat_id=id, photo=open(f'{path}', 'rb'))
 
         for j in honey_tourist_attractions:
-            bot.sendMessage(chat_id=id, text=f"꿀 여행지는: {j}")  # 꿀 여행지
+            key1, key2, key3, score = add_info(j)
+            bot.sendMessage(chat_id=id, text=f"추천하는 꿀 여행지는 {j} 입니다.\n\n해당 여행지의 키워드는 {key1}, {key2}, {key3} 입니다.\n\n해당 여행지를 다녀간 여행객들의 평균 평점은 {score} 입니다.")  # 꿀 여행지
             path = show_image(j)
             bot.send_photo(chat_id=id, photo=open(f'{path}', 'rb'))
 
+
     #3-2
     else:
-        key_list = print_random_keyword(k_list)
-        bot.sendMessage(chat_id=id, text="검색한 키워드를 찾을 수 없습니다. 시스템의 추천 키워드는 다음과 같습니다.")
-        for k in key_list:
-            bot.sendMessage(chat_id=id, text=f"{k}")
-        bot.sendMessage(chat_id=id, text="다시 가고 싶은 여행지의 키워드를 입력해주세요.")
+        score = find_tourist_attractions(user_text)
+        if score > 0:
+            bot.sendMessage(chat_id=id,text=f"입력하신 여행지는 {user_text} 입니다.\n\n해당 여행지를 다녀간 여행객들의 평균 평점은 {score} 입니다.")
+            bot.sendMessage(chat_id=id, text="하지만 저희 챗봇은 여행 키워드 입력 후 여행지를 추천해줍니다. \n\n다시 가고 싶은 여행지의 키워드를 입력해주세요.")
+
+        else:
+            key_list = print_random_keyword(k_list)
+            bot.sendMessage(chat_id=id, text="검색한 키워드를 찾을 수 없습니다. 시스템의 추천 키워드는 다음과 같습니다.")
+            a, b, c, d, e = key_list
+            bot.sendMessage(chat_id=id, text=f"{a}, {b}, {c}, {d}, {e}")
+            bot.sendMessage(chat_id=id, text="다시 가고 싶은 여행지의 키워드를 입력해주세요.")
 
 
 def show_image(key):
@@ -72,6 +82,24 @@ def show_image(key):
             file_path = os.path.join(root, file)
             #name = file_path.split('\\')[-1].replace('.jpg', '')
     return file_path
+
+
+def add_info(tourist_attractions):
+    index = df.index[df['장소'] == tourist_attractions].tolist()
+    keyword_list = sum(df.loc[index]['키워드'].to_list(), [])
+    key1, key2, key3 = random.sample(keyword_list, 3)
+    score = df.loc[index]['평점'].to_list()
+    return key1, key2, key3, round(score[0], 2)
+
+
+def find_tourist_attractions(tourist_attractions):
+    index = df.index[df['장소'] == tourist_attractions].tolist()
+    if len(index) == 1:
+        score = df.loc[index]['평점'].to_list()
+        return round(score[0], 2)
+    else:
+        return -1
+
 
 echo_handler = MessageHandler(Filters.text, handler)
 dispatcher.add_handler(echo_handler)
