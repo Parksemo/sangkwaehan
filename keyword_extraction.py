@@ -11,6 +11,15 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sentence_transformers import SentenceTransformer
 import pickle
+import os
+
+# 파일 이름 찾기
+dir_path = os.getcwd() + '\\tourist_attractions'
+name_list = []
+for (root, directories, files) in os.walk(dir_path):
+    for file in files:
+        file_path = os.path.join(root, file)
+        name_list.append(file_path.split('\\')[-1].replace('_.pickle', ''))
 
 # 키워드 추출 함수
 def 키버트_키워드_추출(장소, 최소그램, 최대그램, 추출키워드개수, 상위키워드개수):
@@ -76,3 +85,5 @@ def 키버트_키워드_추출(장소, 최소그램, 최대그램, 추출키워�
     장소_키워드_평점 = pd.DataFrame(list(zip(장소, 키워드_총_리스트, 평점, 리뷰_수_리스트)) ,columns=['장소','키워드','평점', '리뷰수'])
     장소_키워드_평점.to_pickle("pickle_review_data_frame")
     return 장소_키워드_평점
+
+키버트_키워드_추출(장소=name_list, 최소그램=1, 최대그램=1, 추출키워드개수=10, 상위키워드개수=20)
