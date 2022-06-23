@@ -1,3 +1,7 @@
+# ----------------------------------------------------------
+# 트립닷컴 크롤링 함수
+# ----------------------------------------------------------
+
 from selenium import webdriver
 import chromedriver_autoinstaller
 import time

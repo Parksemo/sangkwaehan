@@ -1,3 +1,7 @@
+# ----------------------------------------------------------
+# 챗봇 함수
+# ----------------------------------------------------------
+
 import telegram
 from telegram.ext import Updater
 from telegram.ext import MessageHandler, Filters
@@ -9,8 +13,8 @@ import os
 from google_images_download import google_images_download
 import random
 
-token = '5569336973:AAHuk9BSs66Uq2fv7kuwNLCPVshMthsMXvA'
-id = '5541102425'
+token = '5462763221:AAEIpwfa5dkOtDrt75kQbSyWLeCd26XSiGc'
+id = '5577209588'
 
 bot = telegram.Bot(token=token)   # 봇 정의
 
@@ -18,7 +22,7 @@ updater = Updater(token=token, use_context=True)
 dispatcher = updater.dispatcher
 updater.start_polling()
 
-df = pd.read_pickle("pickle_review_data_frame")
+df = pd.read_pickle("pickle_review_data_frame.pickle")
 
 '''
 1. 사용자에게 키워드 입력을 요구
