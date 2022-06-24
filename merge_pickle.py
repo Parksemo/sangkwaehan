@@ -39,7 +39,7 @@ def 피클병합():
             reviews_TAV = 0
             out_re_TAV = []
         else:
-            with open(f"./TAV/{i}.pickle","rb") as fr:
+            with open(f"./tripadvisor_pickle/{i}.pickle","rb") as fr:
                 크롤링_리뷰수 = pickle.load(fr)
             reviews_TAV = 크롤링_리뷰수['트립리뷰수']
             out_re_TAV = 크롤링_리뷰수['트립리뷰']
@@ -49,7 +49,7 @@ def 피클병합():
             reviews_GMR = 0
             out_re_GMR = []
         else:
-            with open(f"./GMR/{i}.pickle","rb") as fr:
+            with open(f"./google_pickle/{i}.pickle","rb") as fr:
                 구글_리뷰크롤링 = pickle.load(fr)
             reviews_GMR = 구글_리뷰크롤링['구글리뷰수']
             out_re_GMR = 구글_리뷰크롤링['구글리뷰']
@@ -59,7 +59,7 @@ def 피클병합():
             reviews_TDC = 0
             out_re_TDC = []
         else:
-            with open(f"./TDC/{i}_.pickle","rb") as fr:
+            with open(f"./tripdotcom_pickle/{i}_.pickle","rb") as fr:
                 크롤링_리뷰수 = pickle.load(fr)
             reviews_TDC = len(크롤링_리뷰수['리뷰'])
             out_re_TDC = 크롤링_리뷰수['리뷰']

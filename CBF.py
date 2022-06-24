@@ -32,7 +32,7 @@ def CBF(user_input_keyword, DataFrame):
 
     # -----------------------------------------------------------------------------
     # 꿀장소 추천
-    similar_df = new_data.iloc[similar_idxs][1:5]
+    similar_df = new_data.iloc[similar_idxs][1:8]
     review_max = max(similar_df['리뷰수'])
 
     review_score = []
@@ -51,8 +51,11 @@ def CBF(user_input_keyword, DataFrame):
         result.append(review_score[i] / 2 + score_score[i] / 2)
     
     similar_df['result'] = result
-    result_max = max(similar_df['result'])
+    similar_df = similar_df.sort_values(by = ['result'], ascending = False)
+    result_max1 = list(similar_df['result'])[0]
+    result_max2 = list(similar_df['result'])[1]
 
     best_tourist_attractions = new_data.iloc[similar_idxs][1:2]['장소']
-    honey_tourist_attractions = similar_df[similar_df['result'] == result_max]['장소']
-    return best_tourist_attractions, honey_tourist_attractions
+    honey_tourist_attractions1 = similar_df[similar_df['result'] == result_max1]['장소']
+    honey_tourist_attractions2 = similar_df[similar_df['result'] == result_max2]['장소']
+    return best_tourist_attractions, honey_tourist_attractions1, honey_tourist_attractions2

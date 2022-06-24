@@ -42,7 +42,12 @@ def handler(update, context):
     k_list = sum(df['키워드'].to_list(), [])
     # 3-1.
     if user_text in k_list:
-        best_tourist_attractions, honey_tourist_attractions = CBF(user_text, df)
+        best_tourist_attractions, honey_tourist_attractions1, honey_tourist_attractions2 = CBF(user_text, df)
+        
+        if best_tourist_attractions.item() == honey_tourist_attractions1.item():
+            honey_tourist_attractions = honey_tourist_attractions2
+        else:
+            honey_tourist_attractions = honey_tourist_attractions1
 
         for i in best_tourist_attractions:
             key1, key2, key3, score = add_info(i)
@@ -55,7 +60,6 @@ def handler(update, context):
             bot.sendMessage(chat_id=id, text=f"추천하는 꿀 여행지는 {j} 입니다.\n\n해당 여행지의 키워드는 {key1}, {key2}, {key3} 입니다.\n\n해당 여행지를 다녀간 여행객들의 평균 평점은 {score} 입니다.")  # 꿀 여행지
             path = show_image(j)
             bot.send_photo(chat_id=id, photo=open(f'{path}', 'rb'))
-
 
     #3-2
     else:
