@@ -19,7 +19,8 @@
 
 ### 개발환경
 #### 언어 : Python
-#### IDE : Pycharm, Jupyter Notebook
+#### 서버 : AWS EC2, ubuntu
+#### IDE : Pycharm, Jupyter Notebook, VS Code
 
 
 ### 기술 스택 : Selenium, KeyBERT, Telegram
